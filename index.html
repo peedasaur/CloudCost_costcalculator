@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Cloud Cost Optimization Dashboard — Monitor, Analyze, and Optimize your cloud spending with FinOps best practices."/>
+  <title>CloudCost — FinOps Dashboard</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800&display=swap" rel="stylesheet"/>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <!-- Dynamic Animated CSS Background (Never fails to play) -->
+  <div class="site-animated-bg">
+    <div class="bg-shape bg-1"></div>
+    <div class="bg-shape bg-2"></div>
+    <div class="bg-shape bg-3"></div>
+    <div class="bg-grid-overlay"></div>
+  </div>
+
+  <!-- NAV -->
+  <nav id="navbar" class="navbar">
+    <div class="nav-inner">
+      <a href="#home" class="nav-logo">
+        <span class="logo-mark">⬡</span>
+        <span>Cloud<strong>Cost</strong></span>
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home"      class="nav-link active">Home</a></li>
+        <li><a href="#dashboard" class="nav-link">Dashboard</a></li>
+        <li><a href="#features"  class="nav-link">Features</a></li>
+      </ul>
+
+      <div class="nav-end">
+        <span class="version-pill">FinOps v2</span>
+        <button class="btn-nav" onclick="scrollToDashboard()">Open Dashboard</button>
+      </div>
+
+      <button class="hamburger" onclick="toggleMenu()" aria-label="menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO — left-aligned split layout -->
+  <section id="home" class="hero">
+
+    <!-- Pure CSS background — no canvas needed -->
+    <div class="hero-bg" aria-hidden="true">
+      <div class="bg-orb orb-1"></div>
+      <div class="bg-orb orb-2"></div>
+      <div class="bg-grid"></div>
+    </div>
+
+    <div class="hero-layout">
+
+      <!-- Left: text content -->
+      <div class="hero-text reveal-up">
+        <span class="hero-pill">
+          <span class="live-dot"></span>
+          Real-time FinOps Intelligence
+        </span>
+
+        <h1 class="hero-heading">
+          Cut cloud costs<br/>
+          with <em>smart</em><br/>
+          FinOps insights
+        </h1>
+
+        <p class="hero-body">
+          Monitor, analyze, and optimize your cloud spending across
+          AWS, Azure, and GCP — with actionable recommendations built in.
+        </p>
+
+        <div class="hero-cta-row">
+          <button class="btn-primary ripple" onclick="scrollToDashboard()">
+            Try the Calculator
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <button class="btn-soft ripple" onclick="scrollToFeatures()">
+            See Features
+          </button>
+        </div>
+
+        <!-- Stats — free-floating, not boxed -->
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-val" data-count="40">0</span><sup>%</sup>
+            <span class="stat-name">avg savings</span>
+          </div>
+          <div class="stat-sep"></div>
+          <div class="stat">
+            <span class="stat-val" data-count="3">0</span><sup>+</sup>
+            <span class="stat-name">cloud providers</span>
+          </div>
+          <div class="stat-sep"></div>
+          <div class="stat">
+            <span class="stat-val" data-count="12">0</span><sup>+</sup>
+            <span class="stat-name">FinOps tips</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Advanced CSS 3D Hologram Scene (CORS-free) -->
+      <div class="hero-visual" aria-hidden="true">
+        <div class="iso-scene">
+          <!-- Holographic rotating rings -->
+          <div class="iso-ring ring-1"></div>
+          <div class="iso-ring ring-2"></div>
+
+          <!-- Layer 1: Glowing base grid -->
+          <div class="iso-layer base-grid"></div>
+
+          <!-- Layer 2: Floating transparent dashboard cards -->
+          <div class="iso-layer float-card card-1">
+            <div class="chart-bar b1"></div>
+            <div class="chart-bar b2"></div>
+            <div class="chart-bar b3"></div>
+          </div>
+          
+          <div class="iso-layer float-card card-2">
+            <div class="skeleton-text"></div>
+            <div class="skeleton-text short"></div>
+          </div>
+
+          <!-- Layer 3: Central neon data core -->
+          <div class="iso-layer core-cube">
+            <div class="cube-face top"></div>
+            <div class="cube-face front"></div>
+            <div class="cube-face right"></div>
+            <div class="laser"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="scroll-cue">
+      <div class="scroll-chevron"></div>
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section id="dashboard" class="section-dashboard">
+    <div class="wrap">
+
+      <div class="section-intro reveal-up">
+        <p class="section-eyebrow">Interactive Tool</p>
+        <h2 class="section-heading">Cost Calculator</h2>
+        <p class="section-sub">
+          Choose your cloud provider, configure your workload, and get instant cost estimates with smart savings advice.
+        </p>
+      </div>
+
+      <!-- Provider toggle row -->
+      <div class="provider-bar reveal-up">
+        <span class="provider-label">Cloud provider</span>
+        <div class="provider-tabs">
+          <button class="ptab active" id="tab-aws"   onclick="switchCloud('aws')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg> AWS
+          </button>
+          <button class="ptab"        id="tab-azure" onclick="switchCloud('azure')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 22 22 22"></polygon></svg> Azure
+          </button>
+          <button class="ptab"        id="tab-gcp"   onclick="switchCloud('gcp')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle></svg> GCP
+          </button>
+        </div>
+        <p class="provider-note" id="pricingLabel">AWS Pricing — EC2 + S3 equivalent</p>
+      </div>
+
+      <!-- Two-column layout -->
+      <div class="dash-grid">
+
+        <!-- ─── Input panel ─── -->
+        <aside class="panel input-panel reveal-left">
+          <div class="panel-header">
+            <div class="panel-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+            </div>
+            <h3>Workload Config</h3>
+          </div>
+
+          <div class="fields">
+
+            <!-- VM type — Custom designed dropdown -->
+            <div class="field" style="position: relative;">
+              <label>
+                VM Instance Type
+                <span class="help-wrap">
+                  <span class="help-btn">?</span>
+                  <span class="help-tip">Choose your virtual machine size. Larger = more power and more cost.</span>
+                </span>
+              </label>
+              <div class="custom-select" id="vm-select-container">
+                <div class="select-trigger" onclick="toggleDropdown()">
+                  <span id="vm-select-text">Select an instance size</span>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="chevron"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
+                <div class="select-options">
+                  <div class="option" onclick="selectOption('small', 'Small · 1 vCPU, 2 GB RAM')">
+                    <span class="opt-title">Small</span>
+                    <span class="opt-desc">1 vCPU, 2 GB RAM</span>
+                  </div>
+                  <div class="option" onclick="selectOption('medium', 'Medium · 2 vCPU, 4 GB RAM')">
+                    <span class="opt-title">Medium</span>
+                    <span class="opt-desc">2 vCPU, 4 GB RAM</span>
+                  </div>
+                  <div class="option" onclick="selectOption('large', 'Large · 4 vCPU, 8 GB RAM')">
+                    <span class="opt-title">Large</span>
+                    <span class="opt-desc">4 vCPU, 8 GB RAM</span>
+                  </div>
+                </div>
+                <input type="hidden" id="vm-type" value="">
+              </div>
+            </div>
+
+            <!-- Hours -->
+            <div class="field">
+              <label for="hours">
+                Monthly Usage Hours
+                <span class="help-wrap">
+                  <span class="help-btn">?</span>
+                  <span class="help-tip">Max 744 hrs/month (24 × 31). 730 hrs = always-on.</span>
+                </span>
+              </label>
+              <div class="input-row">
+                <input type="number" id="hours" placeholder="e.g. 200" min="0" max="744"/>
+                <span class="input-unit">hrs</span>
+              </div>
+            </div>
+
+            <!-- Storage -->
+            <div class="field">
+              <label for="storage">
+                Storage Size
+                <span class="help-wrap">
+                  <span class="help-btn">?</span>
+                  <span class="help-tip">Block storage in GB. Billed at ₹2/GB per month.</span>
+                </span>
+              </label>
+              <div class="input-row">
+                <input type="number" id="storage" placeholder="e.g. 100" min="0"/>
+                <span class="input-unit">GB</span>
+              </div>
+            </div>
+
+            <!-- Live pricing note -->
+            <div class="price-note" id="pricingPreview">
+              <span id="previewText">Select a VM to see pricing</span>
+            </div>
+
+            <!-- Actions -->
+            <div class="action-row">
+              <button id="calc-btn" class="btn-primary btn-full ripple" onclick="calculateCost()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                Calculate Cost
+              </button>
+              <button id="reset-btn" class="btn-icon ripple" onclick="resetDashboard()" title="Clear">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+              </button>
+            </div>
+
+          </div>
+        </aside>
+
+        <!-- ─── Results area ─── -->
+        <div class="results">
+
+          <!-- Metric cards — total is visually different -->
+          <div class="metric-row">
+
+            <div class="metric-card reveal-up" id="card-vm" style="--d:0.05s">
+              <span class="metric-emoji"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg></span>
+              <p class="metric-label">VM Cost</p>
+              <p class="metric-val" id="vm-cost">₹<span class="count-num">0</span></p>
+              <p class="metric-note" id="vm-note">—</p>
+            </div>
+
+            <div class="metric-card reveal-up" id="card-storage" style="--d:0.12s">
+              <span class="metric-emoji"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg></span>
+              <p class="metric-label">Storage Cost</p>
+              <p class="metric-val" id="storage-cost">₹<span class="count-num">0</span></p>
+              <p class="metric-note">₹2 / GB per month</p>
+            </div>
+
+            <!-- Total — accent card, wider feel -->
+            <div class="metric-card metric-total reveal-up" id="card-total" style="--d:0.19s">
+              <span class="metric-emoji"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></span>
+              <p class="metric-label">Total Estimate</p>
+              <p class="metric-val metric-val-total" id="total-cost">₹<span class="count-num">0</span></p>
+              <span class="budget-tag" id="budget-tag">Enter values above</span>
+            </div>
+
+          </div>
+
+          <!-- Budget alert -->
+          <div id="alert-section" class="alert-card hidden reveal-up">
+            <div class="alert-stripe"></div>
+            <div class="alert-body">
+              <p class="alert-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right:4px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> Monthly budget exceeded</p>
+              <p id="alert-message" class="alert-text"></p>
+            </div>
+          </div>
+
+          <!-- Recommendations -->
+          <div id="suggestions-section" class="reco-panel hidden reveal-up">
+            <div class="reco-header">
+              <span class="reco-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg></span>
+              <h3>FinOps Recommendations</h3>
+            </div>
+            <ul id="suggestions-list" class="reco-list"></ul>
+          </div>
+
+          <!-- Chart -->
+          <div class="panel chart-panel reveal-up">
+            <div class="panel-header">
+              <div class="panel-icon accent-purple">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+              </div>
+              <h3>Cost Breakdown</h3>
+              <div class="chart-type-btns">
+                <button class="ctype active" onclick="switchChartType('bar', this)">Bar</button>
+                <button class="ctype"        onclick="switchChartType('doughnut', this)">Donut</button>
+              </div>
+            </div>
+            <div class="chart-area">
+              <canvas id="costChart"></canvas>
+              <div class="chart-empty" id="chartPlaceholder">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" style="opacity:.25;"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                <span>Calculate cost to see chart</span>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /results -->
+
+      </div><!-- /dash-grid -->
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" class="section-features">
+    <div class="wrap">
+
+      <div class="section-intro reveal-up">
+        <p class="section-eyebrow">Why CloudCost</p>
+        <h2 class="section-heading">Built for real people.</h2>
+        <p class="section-sub">We stripped away the complex dashboards so you can easily understand and control your spending.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feat-card reveal-up" style="--d:0s">
+          <div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg></div>
+          <h4>Instant answers</h4>
+          <p>Stop guessing. See your costs in real-time across all major cloud providers without any lag.</p>
+        </div>
+        <div class="feat-card reveal-up" style="--d:0.07s">
+          <div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg></div>
+          <h4>Ways to save money</h4>
+          <p>We'll spot idle servers and bloated storage, suggesting cheaper alternatives automatically.</p>
+        </div>
+        <div class="feat-card reveal-up" style="--d:0.14s">
+          <div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></div>
+          <h4>Compare providers</h4>
+          <p>Not sure where to deploy? Put AWS, Azure, and GCP side-by-side to find the absolute best deal.</p>
+        </div>
+        <div class="feat-card reveal-up" style="--d:0.21s">
+          <div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg></div>
+          <h4>Never overspend</h4>
+          <p>We'll send you an alert long before you accidentally blow past your monthly budget constraint.</p>
+        </div>
+        <div class="feat-card reveal-up" style="--d:0.28s">
+          <div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></div>
+          <h4>Understand your bill</h4>
+          <p>Simple, completely clear charts that actually make sense of where your cloud money is going.</p>
+        </div>
+        <div class="feat-card reveal-up" style="--d:0.35s">
+          <div class="feat-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg></div>
+          <h4>Know who spent what</h4>
+          <p>Group your costs by team or project so there are absolutely no surprises at the end of the month.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <a href="#home" class="nav-logo" style="text-decoration:none">
+        <span class="logo-mark">⬡</span>
+        <span>Cloud<strong>Cost</strong></span>
+      </a>
+      <p>Built for learning FinOps · 2025 · Open Source</p>
+    </div>
+  </footer>
+
+  <div id="toast-container" class="toast-container"></div>
+  <script src="script.js"></script>
+</body>
+</html>
